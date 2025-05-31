@@ -1,3 +1,3 @@
-import { addDeviceForm } from "./functions/deviceForm";
+import { initAddDeviceForm } from "./functions/deviceForm.js";
 
-addDeviceForm();
+initAddDeviceForm();

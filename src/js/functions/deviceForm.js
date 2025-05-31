@@ -1,26 +1,28 @@
-const maxForms = 2;
+const maxTotalForms = 6;
+const maxUnfilledForms = 2;
 const addDeviceButton = document.getElementById('addDeviceButton');
-const deviceFormContainer = document.querySelector('form.deviceInfoForm');
+const deviceInfoSection = document.getElementById('deviceInfo');
 
-function countForms() {
+function countUnfilledForms() {
     const forms = document.querySelectorAll('.deviceInfoForm');
-    let count = 0;
+    let unfilledCount = 0;
     forms.forEach(form => {
-        const brand = form.querySelector('input[name="brand"]').value.trim();
-        const model = form.querySelector('input[name="model"]').value.trim();
-        if (brand || model) {
-            count++;
+        const searchButton = form.querySelector('button[type="submit"]');
+        if (searchButton || !searchButton.disabled) {
+            unfilledCount++;
         }
     });
-    return count;
+    return unfilledCount;
 }
 
-export function addDeviceForm() {
+function countTotalForms() {
+    return document.querySelectorAll('.deviceInfoForm').length;
+}
+
+export function createDeviceForm() {
     const form = document.createElement('form');
     form.classList.add('deviceInfoForm');
     form.innerHTML = `
-        section id="deviceInfo">
-    <form class="deviceInfoForm">
       <h2>Device Information</h2>
 
       <label for="deviceType">Device Type</label>
@@ -30,6 +32,7 @@ export function addDeviceForm() {
         <option value="laptop">Laptop</option>
         <option value="desktop">Desktop</option>
         <option value="wearable">Wearable</option>
+      </select>
 
         <label for="Brand">Brand: </label>
         <input type="text" id="brand" name="brand" placeholder="Apple, Samsung, etc." required />
@@ -38,10 +41,8 @@ export function addDeviceForm() {
         <input type="text" id="model" name="model" placeholder="iPhone 14, Galaxy S21, etc." required />
 
         <button type="submit">Search</button>
-    </form>
-    <button type="button" class="removeFormButton">Remove</button>
-    <button type="button" id="addDeviceButton">Add Device</button>
-  </section>`;
+        <button type="button" class="removeFormButton">Remove</button>
+    `;
   
   const removeButton = form.querySelector('.removeFormButton');
   removeButton.addEventListener('click', () => {
@@ -50,13 +51,21 @@ export function addDeviceForm() {
     return form;
 }
 
-export function addDeviceForm() {
+export function initAddDeviceForm() {
     addDeviceButton.addEventListener('click', () => {
-        if (countForms() < maxForms) {
-            const newForm = addDeviceForm();
-            ddeviceInfoSection.insertBefore(newForm, addDeviceButton);
-        } else {
-            alert('You can only have up to 2 unfilled device forms at once.');
+        const totalForms = countTotalForms();
+        const unfilledForms = countUnfilledForms();
+
+        if (totalForms >= maxTotalForms) {
+            alert(`You can only add up to ${maxTotalForms} devices.`);
+            return;
         }
+        if (unfilledForms >= maxUnfilledForms) {
+            alert(`Please fill out or remove existing empty forms before adding a new one.`);
+            return;
+        }
+
+        const newForm = createDeviceForm();
+        deviceInfoSection.insertBefore(newForm, addDeviceButton);
     });
 }
