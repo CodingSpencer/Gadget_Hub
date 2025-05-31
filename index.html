@@ -8,7 +8,26 @@
   <script type="module" src="/src/js/main.js"></script>
 </head>
 <body>
-  
+  <form class="deviceInfoForm">
+    <h2>Device Information</h2>
+
+    <label for="deviceType">Device Type</label>
+    <select id="deviceType" name="deviceType">
+      <option value="smartphone">Smartphone</option>
+      <option value="tablet">Tablet</option>
+      <option value="laptop">Laptop</option>
+      <option value="desktop">Desktop</option>
+      <option value="wearable">Wearable</option>
+
+      <label for="Brand">Brand: </label>
+      <input type="text" id="brand" name="brand" placeholder="Apple, Samsung, etc." required />
+
+      <label for="model">Model: </label>
+      <input type="text" id="model" name="model" placeholder="iPhone 14, Galaxy S21, etc." required />
+
+      <button type="submit">Search</button>
+      <button type="button" id="addDeviceButton">Add Device</button>
+  </form>
 </body>
 <footer>
   <p> 2025 Gadget Hub. | 
