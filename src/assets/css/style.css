@@ -125,3 +125,10 @@ footer a:hover {
 form.deviceInfoForm button {
     margin-right: 0.5rem;
 }
+
+.result {
+  background: #f0f0f0;
+  padding: 1em;
+  border-radius: 8px;
+  list-style: none;
+}
