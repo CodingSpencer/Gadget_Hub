@@ -1,0 +1,34 @@
+.result {
+  list-style: none;
+  padding: 1.5rem;
+  margin: 1.5rem auto;
+  max-width: 500px;
+  background: #fdfdfd;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.result:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.result li {
+  margin: 0.5rem 0;
+  padding: 0.2rem 0;
+  border-bottom: 1px dashed #ccc;
+  font-size: 1rem;
+  color: #333;
+}
+
+.result li:last-child {
+  border-bottom: none;
+}
+
+.result li strong {
+  color: #007bff;
+  font-weight: 600;
+}

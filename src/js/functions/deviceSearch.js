@@ -1,145 +1,186 @@
+// fetchPhones.js must be available in the same directory
 import { handlePhoneSearch } from "./fetchPhones.js";
-// import { handleTabletSearch } from "./fetchTablets.js";
-// import { handleLaptopSearch } from "./fetchLaptops.js";
+
+let formIndexCounter = 0; // Unique index counter
 
 export function attachHandler(form) {
-  const deviceTypeSelect = form.querySelector("#deviceType");
-  const brandSelect = form.querySelector("#brand");
-  const modelSelect = form.querySelector("#model");
+  formIndexCounter++;
+
+  const deviceTypeSelect = form.querySelector(".device-type");
+  const brandSelect = form.querySelector(".brand-select");
+  const modelSelect = form.querySelector(".model-select");
+  const yearSelect = form.querySelector(".year-select");
+
+  const formWrapper = form.closest(".device-block");
+  if (formWrapper) {
+    formWrapper.dataset.formIndex = formIndexCounter;
+    const resultContainer = formWrapper.querySelector(".form-results");
+    if (resultContainer) {
+      resultContainer.id = `results-${formIndexCounter}`;
+    }
+  }
 
   const applyHandler = () => {
     const deviceType = deviceTypeSelect.value;
-    console.log(`[attachHandler] deviceType selected: ${deviceType}`);
-
-    // Clear brand and model dropdowns first
     brandSelect.innerHTML = `<option value="">-- Select a Brand --</option>`;
     modelSelect.innerHTML = `<option value="">-- Select a Model --</option>`;
-    console.log("[attachHandler] Cleared brand and model dropdowns");
+    yearSelect.innerHTML = `<option value="">-- Select Year --</option>`;
 
     if (deviceType === "smartphone") {
-      console.log("[attachHandler] Handling smartphone search");
-      handlePhoneSearch(form);
+      handlePhoneSearch(form, formIndexCounter);
     }
-    // else if (deviceType === "tablet") {
-    //   handleTabletSearch(form);
-    // }
-    // else if (deviceType === "laptop") {
-    //   handleLaptopSearch(form);
-    // }
   };
 
-  deviceTypeSelect.addEventListener("change", () => {
-    console.log("[attachHandler] Device type changed");
-    applyHandler();
-  });
-
-  // Initial call on form load
-  console.log("[attachHandler] Initial applyHandler call");
+  deviceTypeSelect.addEventListener("change", applyHandler);
   applyHandler();
 }
 
 const maxTotalForms = 6;
 const maxUnfilledForms = 2;
 
+function updateDeviceGridSpans() {
+  const container = document.getElementById('deviceInfo');
+  const blocks = container.querySelectorAll('.device-block');
+  const addButton = document.getElementById('addDeviceButton');
+  const count = blocks.length;
+
+  blocks.forEach(block => block.style.gridColumn = '');
+
+  if (count === 1) {
+    container.style.gridTemplateColumns = '1fr';
+    blocks[0].style.gridColumn = '1 / -1';
+    addButton.style.display = 'block';
+  } else if (count === 2) {
+    container.style.gridTemplateColumns = 'repeat(2, 1fr)';
+    blocks.forEach(b => b.style.gridColumn = 'span 1');
+    addButton.style.display = 'block';
+  } else if (count === 3) {
+    container.style.gridTemplateColumns = 'repeat(3, 1fr)';
+    blocks.forEach(b => b.style.gridColumn = 'span 1');
+    addButton.style.display = 'block';
+  } else if (count === 4) {
+    container.style.gridTemplateColumns = 'repeat(2, 1fr)';
+    blocks.forEach(b => b.style.gridColumn = 'span 1');
+    addButton.style.display = 'block';
+  } else if (count === 5) {
+    container.style.gridTemplateColumns = 'repeat(3, 1fr)';
+    blocks.forEach(b => b.style.gridColumn = 'span 1');
+    addButton.style.display = 'block';
+  } else if (count >= 6) {
+    container.style.gridTemplateColumns = 'repeat(3, 1fr)';
+    blocks.forEach(b => b.style.gridColumn = 'span 1');
+    addButton.style.display = 'none';
+  }
+
+  if (addButton.style.display !== 'none') {
+    addButton.style.gridColumn = '1 / -1';
+  }
+}
+
 function countUnfilledForms() {
-  const forms = document.querySelectorAll(".deviceInfoForm");
-  let unfilledCount = 0;
-
-  forms.forEach((form) => {
-    const searchButton = form.querySelector("button[type='submit']");
-    if (searchButton && !searchButton.disabled) {
-      unfilledCount++;
-    }
-  });
-
-  console.log(`[countUnfilledForms] Unfilled forms count: ${unfilledCount}`);
-  return unfilledCount;
+  return [...document.querySelectorAll(".deviceInfoForm")].filter(form => {
+    const resultContainer = form.closest(".device-block").querySelector(".form-results");
+    const isResultsHidden = !resultContainer || resultContainer.style.display === "none";
+    const brandEmpty = !form.querySelector(".brand-select").value;
+    const modelEmpty = !form.querySelector(".model-select").value;
+    const yearEmpty = !form.querySelector(".year-select").value;
+    return isResultsHidden && (brandEmpty || modelEmpty || yearEmpty);
+  }).length;
 }
 
 function countTotalForms() {
-  const total = document.querySelectorAll(".deviceInfoForm").length;
-  console.log(`[countTotalForms] Total forms count: ${total}`);
-  return total;
+  return document.querySelectorAll(".deviceInfoForm").length;
 }
 
 export function createDeviceForm() {
-  console.log("[createDeviceForm] Creating new device form");
+  const deviceBlock = document.createElement("div");
+  deviceBlock.classList.add("device-block");
+
   const form = document.createElement("form");
   form.classList.add("deviceInfoForm");
   form.innerHTML = `
     <h2>Device Information</h2>
     <label for="deviceType">Device Type</label>
-    <select id="deviceType" name="deviceType">
+    <select class="device-type" name="deviceType">
       <option value="smartphone">Smartphone</option>
       <option value="tablet">Tablet</option>
       <option value="laptop">Laptop</option>
       <option value="desktop">Desktop</option>
       <option value="wearable">Wearable</option>
     </select>
+
     <label for="brand">Brand:</label>
-    <select id="brand" name="brand" required>
+    <select class="brand-select" name="brand" required>
       <option value="">-- Select a Brand --</option>
     </select>
+
     <label for="model">Model:</label>
-    <select id="model" name="model" required>
+    <select class="model-select" name="model" required>
       <option value="">-- Select a Model --</option>
     </select>
+
+    <label for="year">Year:</label>
+    <select class="year-select" name="year" required>
+      <option value="">-- Select Year --</option>
+    </select>
+
     <button type="submit">Search</button>
     <button type="button" class="removeFormButton">Remove</button>
   `;
 
+  const resultsDiv = document.createElement("div");
+  resultsDiv.classList.add("form-results");
+  resultsDiv.style.display = "none";
+
   form.querySelector(".removeFormButton").addEventListener("click", () => {
-    console.log("[createDeviceForm] Remove button clicked - removing form");
-    form.remove();
+    deviceBlock.remove();
+    updateDeviceGridSpans();
   });
 
-  return form;
+  deviceBlock.appendChild(form);
+  deviceBlock.appendChild(resultsDiv);
+
+  return deviceBlock;
 }
 
 export function initAddDeviceForm() {
-  document.addEventListener("DOMContentLoaded", () => {
-    console.log("[initAddDeviceForm] DOMContentLoaded event fired");
+  const initialize = () => {
     const addDeviceButton = document.getElementById("addDeviceButton");
     const deviceInfoSection = document.getElementById("deviceInfo");
 
-    if (!addDeviceButton || !deviceInfoSection) {
-      console.error("[initAddDeviceForm] Add Device button or Device Info section NOT found in DOM");
-      return;
-    }
+    if (!addDeviceButton || !deviceInfoSection) return;
 
-    console.log("[initAddDeviceForm] Add Device button and Device Info section found");
+    [...deviceInfoSection.querySelectorAll(".deviceInfoForm")].forEach(form => {
+      attachHandler(form);
+    });
 
-    // 👉 Attach handler to initial form (if one exists)
-    const initialForm = deviceInfoSection.querySelector(".deviceInfoForm");
-    if (initialForm) {
-      console.log("[initAddDeviceForm] Initial form found - attaching handler");
-      attachHandler(initialForm);
-    } else {
-      console.log("[initAddDeviceForm] No initial form found");
-    }
-
-    // 👉 Set up add button click to create new forms
     addDeviceButton.addEventListener("click", () => {
-      console.log("[initAddDeviceForm] Add Device button clicked");
-
       const totalForms = countTotalForms();
       const unfilledForms = countUnfilledForms();
 
       if (totalForms >= maxTotalForms) {
         alert(`You can only add up to ${maxTotalForms} devices.`);
-        console.warn(`[initAddDeviceForm] Maximum total forms reached: ${totalForms}`);
-        return;
-      }
-      if (unfilledForms >= maxUnfilledForms) {
-        alert(`Please fill out or remove existing empty forms before adding a new one.`);
-        console.warn(`[initAddDeviceForm] Maximum unfilled forms reached: ${unfilledForms}`);
         return;
       }
 
-      const newForm = createDeviceForm();
-      deviceInfoSection.insertBefore(newForm, addDeviceButton);
+      if (unfilledForms >= maxUnfilledForms) {
+        alert(`Please fill out or remove existing empty forms before adding a new one.`);
+        return;
+      }
+
+      const newDeviceBlock = createDeviceForm();
+      deviceInfoSection.insertBefore(newDeviceBlock, addDeviceButton);
+      const newForm = newDeviceBlock.querySelector("form.deviceInfoForm");
       attachHandler(newForm);
-      console.log("[initAddDeviceForm] New device form added and handler attached");
+      updateDeviceGridSpans();
     });
-  });
+
+    updateDeviceGridSpans();
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initialize);
+  } else {
+    initialize();
+  }
 }

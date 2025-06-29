@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gadget Hub</title>
   <base href="/Gadget_Hub/"> 
-  <link rel="stylesheet" href="./src/assets/css/style.css" />
+  <link rel="stylesheet" href="/src/assets/css/style.css" />
   <script type="module" src="/src/js/main.js" defer></script>
 </head>
 <body>
@@ -17,31 +17,38 @@
   </header>
   <main>
     <section id="deviceInfo">
-      <form class="deviceInfoForm">
-        <h2>Device Information</h2>
+      <div class="device-block">
+        <form class="deviceInfoForm">
+          <h2>Device Information</h2>
 
-        <label for="deviceType">Device Type</label>
-        <select id="deviceType" name="deviceType">
-          <option value="smartphone">Smartphone</option>
-          <option value="tablet">Tablet</option>
-          <option value="laptop">Laptop</option>
-          <option value="desktop">Desktop</option>
-          <option value="wearable">Wearable</option>
-        </select>
+          <label for="deviceType">Device Type</label>
+          <select id="deviceType" class="device-type" name="deviceType">
+            <option value="smartphone">Smartphone</option>
+            <option value="tablet">Tablet</option>
+            <option value="laptop">Laptop</option>
+            <option value="desktop">Desktop</option>
+            <option value="wearable">Wearable</option>
+          </select>
 
-        <label for="brand">Brand:</label>
-        <select id="brand" name="brand" required>
-          <option value="">-- Select a Brand --</option>
-        </select>
+          <label for="brand">Brand:</label>
+          <select id="brand" class="brand-select" name="brand" required>
+            <option value="">-- Select a Brand --</option>
+          </select>
 
-        <label for="model">Model:</label>
-        <select id="model" name="model" required>
-          <option value="">-- Select a Model --</option>
-        </select>
+          <label for="model">Model:</label>
+          <select id="model" class="model-select" name="model" required>
+            <option value="">-- Select a Model --</option>
+          </select>
 
-        <button type="submit">Search</button>
-        <div id="results"></div>
-      </form>
+          <label for="year">Year:</label>
+          <select id="year" class="year-select" name="year" required>
+            <option value="">-- Select Year --</option>
+          </select>
+
+          <button type="submit">Search</button>
+        </form>
+        <div class="form-results" style="display:none;"></div>
+      </div>
       <button type="button" id="addDeviceButton">Add Device</button>
     </section>
   </main>

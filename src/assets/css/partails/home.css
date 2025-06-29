@@ -1,0 +1,208 @@
+:root {
+    --primary-color: #8e9b8e;
+    --secondary-color: #426988;
+    --accent1-color: rgb(40, 58, 119);
+    --accent2-color: black;
+
+    --heading-font: 'Arial', sans-serif;
+    --body-font-size: 16px;
+    --border-radius: 8px;
+}
+
+/* General body and typography */
+body {
+    font-family: var(--heading-font);
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: var(--accent2-color);
+    font-size: var(--body-font-size);
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 2rem 1rem;
+}
+
+/* Each device block */
+.device-block {
+    background: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 0.2s ease;
+}
+
+/* Hover effect on device block */
+.device-block:hover {
+    transform: translateY(-4px);
+}
+
+/* The form itself */
+form.deviceInfoForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-family: var(--heading-font);
+}
+
+form.deviceInfoForm h2 {
+    margin-top: 0;
+    font-weight: 700;
+}
+
+/* Labels and inputs */
+form label {
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+}
+
+form select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Buttons inside form */
+form button[type="submit"] {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: fit-content;
+    align-self: start;
+}
+
+form button[type="submit"]:hover {
+    background-color: var(--accent1-color);
+}
+
+/* Remove button style */
+.removeFormButton {
+    background-color: rgb(141, 63, 79);
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    font-weight: bold;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 0.5rem;
+    width: fit-content;
+    align-self: start;
+}
+
+.removeFormButton:hover {
+    background-color: rgb(170, 112, 112);
+}
+
+#deviceInfo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* or whatever you want initially */
+  gap: 1rem;
+  padding: 1rem;
+  align-items: start;
+}
+
+/* Add Device Button - centered below grid */
+#addDeviceButton {
+    grid-column: 1 / -1; /* span the entire row */
+    justify-self: center;
+    max-width: 320px;
+    margin: 1rem auto 0 auto;
+    background-color: var(--accent1-color);
+    color: white;
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+#addDeviceButton:hover {
+    background-color: black;
+}
+
+/* Results container */
+.form-results {
+    background: #fdfdfd;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 1.5rem;
+    max-width: 100%;
+    box-sizing: border-box;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Result list inside results */
+.result {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.result li {
+    margin: 0.5rem 0;
+    padding: 0.2rem 0;
+    border-bottom: 1px dashed #ccc;
+    font-size: 1rem;
+    color: #333;
+}
+
+.result li:last-child {
+    border-bottom: none;
+}
+
+.result li strong {
+    color: #007bff;
+    font-weight: 600;
+}
+
+/* Hover effect on the entire results block */
+.form-results:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Footer styles */
+footer {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+footer a {
+    color: white;
+    text-decoration: underline;
+}
+
+footer a:hover {
+    color: var(--accent1-color);
+}
