@@ -11,16 +11,14 @@
 
 html, body {
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .page-wrapper {
-  min-height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-}
-
-main {
-  flex: 1; /* Makes the main content expand to fill available space */
 }
 
 /* General body and typography */
@@ -34,14 +32,15 @@ body {
 }
 
 header {
-    display: flex;
-    background-color: var(--primary-color);
-    color: white;
-    text-align: center;
-    justify-content: left;
+  display: flex;
+  align-items: center;
+  background-color: var(--primary-color);
+  color: white;
+  padding: .5rem;
 }
 
 main {
+    flex: 1;
     max-width: 1200px;
     margin: auto;
     padding: 2rem 1rem;
@@ -202,24 +201,6 @@ form button[type="submit"]:hover {
 .form-results:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-}
-
-/* Footer styles */
-footer {
-    background-color: var(--primary-color);
-    color: white;
-    text-align: center;
-    padding: 1rem;
-    margin-top: 2rem;
-}
-
-footer a {
-    color: white;
-    text-decoration: underline;
-}
-
-footer a:hover {
-    color: var(--accent1-color);
 }
 
 /* Logo image */
