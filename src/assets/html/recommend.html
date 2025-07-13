@@ -26,7 +26,54 @@
     </nav>
   </header>
   <main>
-    <button type="button" class="recommend-btn">Recommend</button>
+    <div id="recommend-section" aria-labelledby="recommend-heading">
+      <form class="recommendForm" aria-describedby="recommend-desc">
+        <h2 id="recommend-heading">Device Recommendations</h2>
+        <p id="recommend-desc" class="sr-only">
+          Select a device type and trait to get tailored recommendations.
+        </p>
+
+        <div class="form-group">
+          <label for="deviceType">Device Type</label>
+          <select
+            id="deviceType"
+            name="deviceType"
+            class="device-type"
+            aria-required="true"
+            required
+          >
+            <option value="" disabled selected>Select a device type</option>
+            <option value="smartphone">Smartphone</option>
+            <option value="tablet">Tablet</option>
+            <option value="laptop">Laptop</option>
+            <option value="desktop">Desktop</option>
+            <option value="wearable">Wearable</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="trait">Trait</label>
+          <select
+            id="trait"
+            name="trait"
+            class="trait-select"
+            aria-required="true"
+            required
+          >
+            <option value="">Overall</option>
+            <!-- Traits populated dynamically -->
+          </select>
+        </div>
+
+        <button
+          type="button"
+          class="recommend-btn"
+          aria-label="Get device recommendations"
+        >
+          Recommend
+        </button>
+      </form>
+    </div>
   </main>
 </body>
 <footer>

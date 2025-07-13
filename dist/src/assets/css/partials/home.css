@@ -96,8 +96,12 @@ main {
 }
 
 /* Block reveal effect */
-.block-effect {
-  font-size: calc(8px + 6vw);
+.block-effect-small {
+  font-size: calc(3px + 2vw); /* smaller */
+}
+
+.block-effect-large {
+  font-size: calc(6px + 4vw); /* larger */
 }
 
 .block-reveal {
