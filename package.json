@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --emptyOutDir",
-    "start": "cross-env PORT=${PORT:-3000} serve -s dist -l $PORT",
+    "start": "vite",
+    "deploy-start": "cross-env PORT=${PORT:-3000} serve -s dist -l $PORT",
     "preview": "vite preview",
     "render-postbuild": "npm install --production=false && npm run build"
   },
