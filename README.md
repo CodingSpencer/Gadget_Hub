@@ -14,9 +14,7 @@ Has a free version with a limited amount of requests per month. Can use for more
 Free API for mobile phones specifications.
 [Old API](https://publicapi.dev/phone-specification-api)
 
-
-
-### Live Deployment
+# Live Deployment
 https://gadget-hub-fyd8.onrender.com
 
 
