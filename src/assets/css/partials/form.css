@@ -2,7 +2,7 @@
 @keyframes spinInQuick {
   0% {
     opacity: 0;
-    transform: rotate(-180deg) scale(0.8);
+    transform: rotate(-45deg) scale(0.8);
   }
   100% {
     opacity: 1;
@@ -24,7 +24,7 @@
 
   /* CSS Spin-in animation */
   opacity: 0;
-  animation: spinInQuick 0.5s ease-out forwards;
+  animation: spinInQuick 0.6s ease-out forwards;
 }
 
 .device-block:hover {
