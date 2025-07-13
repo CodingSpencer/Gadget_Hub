@@ -8,7 +8,7 @@
     "build": "vite build --emptyOutDir",
     "start": "node server.js",
     "preview": "vite preview",
-    "render-postbuild": "npm run build"
+    "render-postbuild": "npm install node vite --production=false && npm run build"
   },
   "author": "",
   "license": "ISC",
