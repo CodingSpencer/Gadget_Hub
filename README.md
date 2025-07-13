@@ -16,6 +16,7 @@ Free API for mobile phones specifications.
 
 # Live Deployment
 https://gadget-hub-fyd8.onrender.com
+https://gadget-hub-webapp.web.app
 
 
 

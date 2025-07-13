@@ -6,5 +6,8 @@ import { handleDeviceRecommendation } from './functions/recommendDevices.js';
 // Initialize functions after DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   initAddDeviceForm();
-  handleDeviceRecommendation();
+
+  document.querySelectorAll(".deviceInfoForm").forEach((form, index) => {
+    handleDeviceRecommendation(form, index + 1);
+  });
 });
