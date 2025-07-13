@@ -5,19 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact</title>
     <!--<base href="/Gadget_Hub/"> --> 
-    <link rel="stylesheet" href="src/assets/css/style.css" />
-    <script type="module" src="src/js/main.js"></script>
+    <link rel="stylesheet" href="/src/assets/css/style.css" />
+    <script type="module" src="/src/js/main.js"></script>
 </head>
 <body>
     <header>
-        <h1>Contact Us</h1>
+        <a href="index.html">
+        <img id="logo" src="src/assets/images/white_logo-removebg.png" alt="Logo Image">
+        </a>
+        <!-- <h1>Gadget Hub</h1>
         <p>
-            Need help? Have questions? Fill out the form below!
-        </p>
+        Simplify your tech comparison experience with Gadget Hub.
+        </p> -->
+        <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="src/assets/html/compare.html">Compare</a></li>
+            <li><a href="src/assets/html/recommend.html">Recommend</a></li>
+            <li><a href="src/assets/html/about.html">About</a></li>
+        </ul>
+        </nav>
     </header>
     <main>
         <section id="deviceInfo">
-            <form class="deviceInfoForm" action="src/assets/html/contact-success.html" method="GET">
+            <form class="deviceInfoForm" action="/src/assets/html/contact-success.html" method="GET">
               <h2>Contact Form</h2>
       
               <label for="Name">Name: </label>
@@ -36,7 +46,7 @@
 </body>
 <footer>
     <p> 2025 Gadget Hub. | 
-      <a href="src/assets/html/contact.html">Contact Us</a>
+      <a href="/src/assets/html/contact.html">Contact Us</a>
     </p>
   </footer>
 </html>
