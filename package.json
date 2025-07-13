@@ -5,7 +5,7 @@
   "main": "/src/js/main.js",
   "scripts": {
     "start": "vite",
-    "build": "vite build --emptyOutDir",
+    "build": "cp -r ./src ./dist",
     "deploy-start": "cross-env PORT=${PORT:-3000} serve -s dist -l $PORT",
     "preview": "vite preview",
     "render-postbuild": "npm install --production=false && npm run build"
