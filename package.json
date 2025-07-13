@@ -2,7 +2,7 @@
   "name": "blackhawk_web",
   "version": "1.0.0",
   "description": "https://codepen.io/nodws/pen/mdQoEB",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "start": "vite",
     "build": "vite build --emptyOutDir",
