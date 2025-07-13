@@ -2,7 +2,7 @@
   "name": "gadget_hub",
   "version": "1.0.0",
   "description": "https://codepen.io/nodws/pen/mdQoEB",
-  "main": "src/js/main.js",
+  "main": "src/js/index.js",
   "scripts": {
     "start": "vite",
     "build": "vite build --emptyOutDir",
