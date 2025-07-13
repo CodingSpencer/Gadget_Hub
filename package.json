@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --emptyOutDir",
-    "start": "node server.js",
+    "start": "node index.js",
     "preview": "vite preview",
     "render-postbuild": "npm install node vite --production=false && npm run build"
   },
