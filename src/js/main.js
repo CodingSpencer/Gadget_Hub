@@ -1,5 +1,3 @@
-import '../assets/css/style.css'; // CSS gets bundled by Vite
-
 import { initAddDeviceForm } from './functions/deviceSearch.js';
 import { handleDeviceRecommendation } from './functions/recommendDevices.js';
 
