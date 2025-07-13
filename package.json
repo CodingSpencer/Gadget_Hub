@@ -6,12 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build --emptyOutDir",
-    "start": "node index.js",
+    "start": "serve -s dist -l $PORT",
     "preview": "vite preview",
-    "render-postbuild": "npm install node vite --production=false && npm run build"
+    "render-postbuild": "npm install --production=false && npm run build"
   },
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "serve": "^14.2.0",
     "cors": "^2.8.5",
