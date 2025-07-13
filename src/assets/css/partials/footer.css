@@ -19,3 +19,7 @@ footer a {
 footer a:hover {
     color: var(--accent1-color);
 }
+
+.footer-spacer {
+  height: 5rem; /* match or exceed the height of your fixed footer */
+}

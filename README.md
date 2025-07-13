@@ -15,9 +15,11 @@ Free API for mobile phones specifications.
 [Old API](https://publicapi.dev/phone-specification-api)
 
 # Live Deployment
+https://cosmic-griffin-413795.netlify.app/
+
+## Not Functioning
 https://gadget-hub-fyd8.onrender.com
 https://gadget-hub-webapp.web.app
-https://cosmic-griffin-413795.netlify.app/
 
 
 
