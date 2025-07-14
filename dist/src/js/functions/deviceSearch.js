@@ -169,7 +169,9 @@ export function initAddDeviceForm() {
       }
 
       const newDeviceBlock = createDeviceForm();
+
       deviceInfoSection.insertBefore(newDeviceBlock, addDeviceButton);
+
       const newForm = newDeviceBlock.querySelector("form.deviceInfoForm");
       attachHandler(newForm);
       updateDeviceGridSpans();
