@@ -3,167 +3,166 @@ export function setupRecommendations(form) {
   const traitSelect = form.querySelector(".trait-select");
   const recommendBtn = form.querySelector(".recommend-btn");
 
-  const formWrapper = form.closest(".device-block") || form.parentElement;
+  const section = form.closest("#recommend-section");
+  const resultContainer = section.querySelector(".recommendations");
+  const resetBtn = section.querySelector(".reset-btn");
 
-  // Create results container or reuse
-  let resultContainer = formWrapper.querySelector(".form-results");
   if (!resultContainer) {
-    resultContainer = document.createElement("div");
-    resultContainer.className = "form-results";
-    resultContainer.style.display = "none";
-    formWrapper.appendChild(resultContainer);
+    console.error("Result container not found. Check .recommendations element in HTML.");
+    return;
   }
+
+  // Hide recommendations section by default
+  resultContainer.style.display = "none";
+  resetBtn.style.display = "none";
+
 
   let devicesData = [];
 
-  // Load device data
+  // Fetch device data
   fetch("https://devices.capscloud.cloud/phones")
     .then((res) => res.json())
     .then((data) => {
       devicesData = data;
-      // Initial populate trait options for default or current device type
+      console.log("✅ Loaded device data:", devicesData);
       populateTraits(deviceTypeSelect.value);
     })
-    .catch(console.error);
+    .catch((err) => {
+      console.error("❌ Failed to fetch device data:", err);
+    });
 
-  // Helper: populate traits based on selected device type
   function populateTraits(deviceType) {
+    console.log("🔧 Populating traits for device type:", deviceType);
     traitSelect.innerHTML = `<option value="">Overall</option>`;
     if (!deviceType) return;
+
+    const validTraitKeys = [
+      "release_year", "screen_size_in", "battery_mAh", "ram_gb",
+      "storage_gb", "camera_mp", "rfid", "os", "original_price_usd", "unlock_methods"
+    ];
+
+    const traitLabelMap = {
+      release_year: "Release Year", screen_size_in: "Screen Size (in)",
+      battery_mAh: "Battery (mAh)", ram_gb: "RAM (GB)", storage_gb: "Storage (GB)",
+      camera_mp: "Camera (MP)", rfid: "RFID", os: "Operating System",
+      original_price_usd: "Original Price (USD)", unlock_methods: "Unlock Methods"
+    };
 
     const traitsSet = new Set();
 
     devicesData.forEach((device) => {
-      if (
-        device.deviceType === deviceType ||
-        device.deviceType === deviceType.toLowerCase()
-      ) {
-        // Collect keys that qualify as traits - you can customize this list:
-        // Example traits from your data keys:
-        // 'rfid', 'release_year', 'screen_size_in', 'unlock_methods', 'battery_mAh', 'ram_gb', 'storage_gb', 'os', 'camera_mp', 'original_price_usd'
-        // We'll include all keys except brand/model/deviceType:
-        Object.keys(device).forEach((key) => {
-          if (
-            ![
-              "brand",
-              "model",
-              "deviceType",
-              "traits",
-              "unlock_methods",
-            ].includes(key)
-          ) {
-            traitsSet.add(key);
-          }
-        });
+      const typeMatch = (device.deviceType || "smartphone").toLowerCase() === deviceType.toLowerCase();
+      if (!typeMatch) return;
 
-        // Also include unlock_methods as a trait category?
-        if (Array.isArray(device.unlock_methods)) {
-          device.unlock_methods.forEach((method) => traitsSet.add(method));
+      validTraitKeys.forEach((key) => {
+        if (device[key] !== undefined && device[key] !== null) {
+          traitsSet.add(key);
         }
-      }
+      });
     });
 
-    // Convert set to sorted array and add options
-    [...traitsSet]
-      .sort()
-      .forEach((trait) => {
-        const option = document.createElement("option");
-        option.value = trait;
-        option.textContent =
-          trait
-            .replace(/_/g, " ")
-            .replace(/\b\w/g, (l) => l.toUpperCase()) || trait;
-        traitSelect.appendChild(option);
-      });
+    const sortedTraits = [...traitsSet].sort();
+    console.log("📊 Available traits:", sortedTraits);
+
+    sortedTraits.forEach((trait) => {
+      const option = document.createElement("option");
+      option.value = trait;
+      option.textContent = traitLabelMap[trait] || trait;
+      traitSelect.appendChild(option);
+    });
   }
 
-  // Update traits when device type changes
   deviceTypeSelect.addEventListener("change", () => {
+    console.log("🔄 Device type changed:", deviceTypeSelect.value);
     populateTraits(deviceTypeSelect.value);
   });
 
-  // Recommendation button click
-  recommendBtn.addEventListener("click", () => {
+  recommendBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
     const deviceType = deviceTypeSelect.value;
     const trait = traitSelect.value;
+
+    console.log("🚀 Recommend clicked. Device Type:", deviceType, "Trait:", trait);
 
     if (!deviceType || !trait) {
       alert("Please select both device type and trait.");
       return;
     }
 
-    // Filter devices by deviceType first
     let filtered = devicesData.filter(
-      (device) =>
-        device.deviceType === deviceType ||
-        device.deviceType === deviceType.toLowerCase()
+      (device) => (device.deviceType || "smartphone").toLowerCase() === deviceType.toLowerCase()
     );
 
-    // Then filter by trait presence or matching trait value
+    console.log("🔍 Filtered by device type:", filtered.length);
 
-    // Check if trait is a boolean or scalar attribute or part of array (like unlock_methods)
     filtered = filtered.filter((device) => {
       if (!(trait in device)) {
-        // Trait might be inside unlock_methods array
-        if (
-          Array.isArray(device.unlock_methods) &&
-          device.unlock_methods.includes(trait)
-        )
-          return true;
-        return false;
+        return Array.isArray(device.unlock_methods) &&
+               device.unlock_methods.includes(trait);
       }
 
       const val = device[trait];
-
-      // Handle array fields (e.g., ram_gb, os, camera_mp)
-      if (Array.isArray(val)) {
-        return val.length > 0;
-      }
-
-      // For scalar fields, check if defined/truthy
+      if (Array.isArray(val)) return val.length > 0;
       return val !== undefined && val !== null;
     });
+
+    console.log("📊 Filtered by trait:", filtered.length);
 
     if (filtered.length === 0) {
       resultContainer.innerHTML = `<p>No devices found for <strong>${deviceType}</strong> with trait <strong>${trait}</strong>.</p>`;
     } else {
+      filtered.sort((a, b) => {
+        const aVal = Array.isArray(a[trait]) ? a[trait][0] : a[trait];
+        const bVal = Array.isArray(b[trait]) ? b[trait][0] : b[trait];
+
+        if (typeof aVal === "number" && typeof bVal === "number") {
+          return bVal - aVal;
+        }
+        if (typeof aVal === "string" && typeof bVal === "string") {
+          return aVal.localeCompare(bVal);
+        }
+        return 0;
+      });
+
+      const top10 = filtered.slice(0, 10);
+      console.log("🏆 Top 10 results:", top10);
+
       resultContainer.innerHTML = `
-        <h3>Recommended Devices for Trait: <em>${trait.replace(
-          /_/g,
-          " "
-        )}</em></h3>
-        ${filtered
-          .map(
-            (device) => `
-          <ul class="result">
-            <li><strong>Brand:</strong> ${device.brand}</li>
-            <li><strong>Model:</strong> ${device.model}</li>
-            <li><strong>Device Type:</strong> ${device.deviceType}</li>
-            <li><strong>Release Year:</strong> ${device.release_year || "N/A"}</li>
-            <li><strong>Battery:</strong> ${
-              device.battery_mAh ? device.battery_mAh + " mAh" : "N/A"
-            }</li>
-            <li><strong>RAM:</strong> ${
-              device.ram_gb ? device.ram_gb.join(", ") + " GB" : "N/A"
-            }</li>
-            <li><strong>Storage:</strong> ${
-              device.storage_gb ? device.storage_gb.join(", ") + " GB" : "N/A"
-            }</li>
-            <li><strong>Camera:</strong> ${
-              device.camera_mp ? device.camera_mp.join(", ") + " MP" : "N/A"
-            }</li>
-            <li><strong>RFID:</strong> ${
-              device.rfid ? "Yes" : "No"
-            }</li>
-            <li><strong>Unlock Methods:</strong> ${
-              device.unlock_methods ? device.unlock_methods.join(", ") : "N/A"
-            }</li>
-          </ul>`
-          )
-          .join("")}
-      `;
+      <h3>Top 10 Devices for Trait: <em>${trait.replace(/_/g, " ")}</em></h3>
+        <div class="recommend-grid">
+          ${top10.map((device) => `
+            <div class="recommend-card">
+              <ul class="result">
+                <li><strong>Brand:</strong> ${device.brand}</li>
+                <li><strong>Model:</strong> ${device.model}</li>
+                <li><strong>Device Type:</strong> ${device.deviceType}</li>
+                <li><strong>Release Year:</strong> ${device.release_year || "N/A"}</li>
+                <li><strong>Battery:</strong> ${device.battery_mAh ? device.battery_mAh + " mAh" : "N/A"}</li>
+                <li><strong>RAM:</strong> ${device.ram_gb ? device.ram_gb.join(", ") + " GB" : "N/A"}</li>
+                <li><strong>Storage:</strong> ${device.storage_gb ? device.storage_gb.join(", ") + " GB" : "N/A"}</li>
+                <li><strong>Camera:</strong> ${device.camera_mp ? device.camera_mp.join(", ") + " MP" : "N/A"}</li>
+                <li><strong>RFID:</strong> ${device.rfid ? "Yes" : "No"}</li>
+                <li><strong>Unlock Methods:</strong> ${device.unlock_methods ? device.unlock_methods.join(", ") : "N/A"}</li>
+              </ul>
+            </div>
+          `).join("")}
+        </div>
+  `;
     }
 
     resultContainer.style.display = "block";
+    resetBtn.style.display = "inline-block";
+    form.style.display = "none";
+  });
+
+  resetBtn.addEventListener("click", () => {
+    console.log("🔄 Reset button clicked");
+    form.reset();
+    traitSelect.innerHTML = `<option value="">Overall</option>`;
+    resultContainer.style.display = "none";
+    resultContainer.innerHTML = "";
+    form.style.display = "block";
+    resetBtn.style.display = "none";
   });
 }

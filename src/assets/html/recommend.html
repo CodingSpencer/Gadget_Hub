@@ -66,14 +66,19 @@
         </div>
 
         <button
-          type="button"
+          type="submit"
           class="recommend-btn"
           aria-label="Get device recommendations"
         >
           Recommend
         </button>
       </form>
-    </div>
+      <div id="recommend-results">
+        <div class="recommendations" aria-live="polite" style="display: none;">
+          <!-- Recommendations will be displayed here -->
+        </div>
+        <button class="reset-btn">New Recommendations</button>
+      </div>
   </main>
 </body>
 <footer>
