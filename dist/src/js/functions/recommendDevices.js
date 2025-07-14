@@ -14,6 +14,8 @@ export function setupRecommendations(form) {
 
   // Hide recommendations section by default
   resultContainer.style.display = "none";
+  resetBtn.style.display = "none";
+
 
   let devicesData = [];
 
@@ -26,11 +28,11 @@ export function setupRecommendations(form) {
       populateTraits(deviceTypeSelect.value);
     })
     .catch((err) => {
-      console.error("Failed to fetch device data:", err);
+      console.error("❌ Failed to fetch device data:", err);
     });
 
   function populateTraits(deviceType) {
-    console.log("Populating traits for device type:", deviceType);
+    console.log("🔧 Populating traits for device type:", deviceType);
     traitSelect.innerHTML = `<option value="">Overall</option>`;
     if (!deviceType) return;
 
@@ -60,7 +62,7 @@ export function setupRecommendations(form) {
     });
 
     const sortedTraits = [...traitsSet].sort();
-    console.log("Available traits:", sortedTraits);
+    console.log("📊 Available traits:", sortedTraits);
 
     sortedTraits.forEach((trait) => {
       const option = document.createElement("option");
@@ -71,7 +73,7 @@ export function setupRecommendations(form) {
   }
 
   deviceTypeSelect.addEventListener("change", () => {
-    console.log("Device type changed:", deviceTypeSelect.value);
+    console.log("🔄 Device type changed:", deviceTypeSelect.value);
     populateTraits(deviceTypeSelect.value);
   });
 
@@ -81,7 +83,7 @@ export function setupRecommendations(form) {
     const deviceType = deviceTypeSelect.value;
     const trait = traitSelect.value;
 
-    console.log("Recommend clicked. Device Type:", deviceType, "Trait:", trait);
+    console.log("🚀 Recommend clicked. Device Type:", deviceType, "Trait:", trait);
 
     if (!deviceType || !trait) {
       alert("Please select both device type and trait.");
@@ -92,12 +94,12 @@ export function setupRecommendations(form) {
       (device) => (device.deviceType || "smartphone").toLowerCase() === deviceType.toLowerCase()
     );
 
-    console.log("Filtered by device type:", filtered.length);
+    console.log("🔍 Filtered by device type:", filtered.length);
 
     filtered = filtered.filter((device) => {
       if (!(trait in device)) {
         return Array.isArray(device.unlock_methods) &&
-              device.unlock_methods.includes(trait);
+               device.unlock_methods.includes(trait);
       }
 
       const val = device[trait];
@@ -105,25 +107,62 @@ export function setupRecommendations(form) {
       return val !== undefined && val !== null;
     });
 
-    console.log("Filtered by trait:", filtered.length);
+    console.log("📊 Filtered by trait:", filtered.length);
 
-    // Result rendering (same as before)...
     if (filtered.length === 0) {
       resultContainer.innerHTML = `<p>No devices found for <strong>${deviceType}</strong> with trait <strong>${trait}</strong>.</p>`;
     } else {
-      // (Rendering code unchanged)
+      filtered.sort((a, b) => {
+        const aVal = Array.isArray(a[trait]) ? a[trait][0] : a[trait];
+        const bVal = Array.isArray(b[trait]) ? b[trait][0] : b[trait];
+
+        if (typeof aVal === "number" && typeof bVal === "number") {
+          return bVal - aVal;
+        }
+        if (typeof aVal === "string" && typeof bVal === "string") {
+          return aVal.localeCompare(bVal);
+        }
+        return 0;
+      });
+
+      const top10 = filtered.slice(0, 10);
+      console.log("🏆 Top 10 results:", top10);
+
+      resultContainer.innerHTML = `
+      <h3>Top 10 Devices for Trait: <em>${trait.replace(/_/g, " ")}</em></h3>
+        <div class="recommend-grid">
+          ${top10.map((device) => `
+            <div class="recommend-card">
+              <ul class="result">
+                <li><strong>Brand:</strong> ${device.brand}</li>
+                <li><strong>Model:</strong> ${device.model}</li>
+                <li><strong>Device Type:</strong> ${device.deviceType}</li>
+                <li><strong>Release Year:</strong> ${device.release_year || "N/A"}</li>
+                <li><strong>Battery:</strong> ${device.battery_mAh ? device.battery_mAh + " mAh" : "N/A"}</li>
+                <li><strong>RAM:</strong> ${device.ram_gb ? device.ram_gb.join(", ") + " GB" : "N/A"}</li>
+                <li><strong>Storage:</strong> ${device.storage_gb ? device.storage_gb.join(", ") + " GB" : "N/A"}</li>
+                <li><strong>Camera:</strong> ${device.camera_mp ? device.camera_mp.join(", ") + " MP" : "N/A"}</li>
+                <li><strong>RFID:</strong> ${device.rfid ? "Yes" : "No"}</li>
+                <li><strong>Unlock Methods:</strong> ${device.unlock_methods ? device.unlock_methods.join(", ") : "N/A"}</li>
+              </ul>
+            </div>
+          `).join("")}
+        </div>
+  `;
     }
 
     resultContainer.style.display = "block";
-    form.style.display = "none"; // 👈 Hide the form
+    resetBtn.style.display = "inline-block";
+    form.style.display = "none";
   });
 
   resetBtn.addEventListener("click", () => {
-    console.log("Reset button clicked");
+    console.log("🔄 Reset button clicked");
     form.reset();
     traitSelect.innerHTML = `<option value="">Overall</option>`;
     resultContainer.style.display = "none";
     resultContainer.innerHTML = "";
-    form.style.display = "block"; // 👈 Show the form again
+    form.style.display = "block";
+    resetBtn.style.display = "none";
   });
 }
