@@ -24,11 +24,11 @@ export function setupRecommendations(form) {
     .then((res) => res.json())
     .then((data) => {
       devicesData = data;
-      console.log("✅ Loaded device data:", devicesData);
+      console.log("Loaded device data:", devicesData);
       populateTraits(deviceTypeSelect.value);
     })
     .catch((err) => {
-      console.error("❌ Failed to fetch device data:", err);
+      console.error("Failed to fetch device data:", err);
     });
 
   function populateTraits(deviceType) {
@@ -62,7 +62,7 @@ export function setupRecommendations(form) {
     });
 
     const sortedTraits = [...traitsSet].sort();
-    console.log("📊 Available traits:", sortedTraits);
+    console.log("Available traits:", sortedTraits);
 
     sortedTraits.forEach((trait) => {
       const option = document.createElement("option");
@@ -73,7 +73,7 @@ export function setupRecommendations(form) {
   }
 
   deviceTypeSelect.addEventListener("change", () => {
-    console.log("🔄 Device type changed:", deviceTypeSelect.value);
+    console.log("Device type changed:", deviceTypeSelect.value);
     populateTraits(deviceTypeSelect.value);
   });
 
@@ -83,7 +83,7 @@ export function setupRecommendations(form) {
     const deviceType = deviceTypeSelect.value;
     const trait = traitSelect.value;
 
-    console.log("🚀 Recommend clicked. Device Type:", deviceType, "Trait:", trait);
+    console.log("Recommend clicked. Device Type:", deviceType, "Trait:", trait);
 
     if (!deviceType || !trait) {
       alert("Please select both device type and trait.");
@@ -94,7 +94,7 @@ export function setupRecommendations(form) {
       (device) => (device.deviceType || "smartphone").toLowerCase() === deviceType.toLowerCase()
     );
 
-    console.log("🔍 Filtered by device type:", filtered.length);
+    console.log("Filtered by device type:", filtered.length);
 
     filtered = filtered.filter((device) => {
       if (!(trait in device)) {
@@ -107,7 +107,7 @@ export function setupRecommendations(form) {
       return val !== undefined && val !== null;
     });
 
-    console.log("📊 Filtered by trait:", filtered.length);
+    console.log("Filtered by trait:", filtered.length);
 
     if (filtered.length === 0) {
       resultContainer.innerHTML = `<p>No devices found for <strong>${deviceType}</strong> with trait <strong>${trait}</strong>.</p>`;
@@ -157,7 +157,7 @@ export function setupRecommendations(form) {
   });
 
   resetBtn.addEventListener("click", () => {
-    console.log("🔄 Reset button clicked");
+    console.log("Reset button clicked");
     form.reset();
     traitSelect.innerHTML = `<option value="">Overall</option>`;
     resultContainer.style.display = "none";
