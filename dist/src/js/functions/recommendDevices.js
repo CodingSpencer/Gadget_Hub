@@ -5,21 +5,25 @@ export function setupRecommendations(form) {
 
   const section = form.closest("#recommend-section");
   const resultContainer = section.querySelector(".recommendations");
-  const resetBtn = section.querySelector(".reset-btn");
 
   if (!resultContainer) {
     console.error("Result container not found. Check .recommendations element in HTML.");
     return;
   }
 
-  // Hide recommendations section by default
-  resultContainer.style.display = "none";
+  // --- Dynamically create and insert reset button ---
+  const resetBtn = document.createElement("button");
+  resetBtn.textContent = "Reset";
+  resetBtn.className = "reset-btn";
   resetBtn.style.display = "none";
+  resetBtn.type = "button"; // Prevent form submission
+  resultContainer.appendChild(resetBtn); // Add at the bottom of recommendations section
 
+  // Hide result container initially
+  resultContainer.style.display = "none";
 
   let devicesData = [];
 
-  // Fetch device data
   fetch("https://devices.capscloud.cloud/phones")
     .then((res) => res.json())
     .then((data) => {
@@ -32,7 +36,7 @@ export function setupRecommendations(form) {
     });
 
   function populateTraits(deviceType) {
-    console.log("🔧 Populating traits for device type:", deviceType);
+    console.log("Populating traits for device type:", deviceType);
     traitSelect.innerHTML = `<option value="">Overall</option>`;
     if (!deviceType) return;
 
@@ -94,8 +98,6 @@ export function setupRecommendations(form) {
       (device) => (device.deviceType || "smartphone").toLowerCase() === deviceType.toLowerCase()
     );
 
-    console.log("Filtered by device type:", filtered.length);
-
     filtered = filtered.filter((device) => {
       if (!(trait in device)) {
         return Array.isArray(device.unlock_methods) &&
@@ -107,10 +109,17 @@ export function setupRecommendations(form) {
       return val !== undefined && val !== null;
     });
 
-    console.log("Filtered by trait:", filtered.length);
+    console.log("Filtered results:", filtered.length);
+
+    const existingHeading = resultContainer.querySelector("h3");
+    if (existingHeading) existingHeading.remove();
+    const existingGrid = resultContainer.querySelector(".recommend-grid");
+    if (existingGrid) existingGrid.remove();
 
     if (filtered.length === 0) {
-      resultContainer.innerHTML = `<p>No devices found for <strong>${deviceType}</strong> with trait <strong>${trait}</strong>.</p>`;
+      const noResultMsg = document.createElement("p");
+      noResultMsg.innerHTML = `No devices found for <strong>${deviceType}</strong> with trait <strong>${trait}</strong>.`;
+      resultContainer.insertBefore(noResultMsg, resetBtn);
     } else {
       filtered.sort((a, b) => {
         const aVal = Array.isArray(a[trait]) ? a[trait][0] : a[trait];
@@ -126,29 +135,36 @@ export function setupRecommendations(form) {
       });
 
       const top10 = filtered.slice(0, 10);
-      console.log("🏆 Top 10 results:", top10);
 
-      resultContainer.innerHTML = `
-      <h3>Top 10 Devices for Trait: <em>${trait.replace(/_/g, " ")}</em></h3>
-        <div class="recommend-grid">
-          ${top10.map((device) => `
-            <div class="recommend-card">
-              <ul class="result">
-                <li><strong>Brand:</strong> ${device.brand}</li>
-                <li><strong>Model:</strong> ${device.model}</li>
-                <li><strong>Device Type:</strong> ${device.deviceType}</li>
-                <li><strong>Release Year:</strong> ${device.release_year || "N/A"}</li>
-                <li><strong>Battery:</strong> ${device.battery_mAh ? device.battery_mAh + " mAh" : "N/A"}</li>
-                <li><strong>RAM:</strong> ${device.ram_gb ? device.ram_gb.join(", ") + " GB" : "N/A"}</li>
-                <li><strong>Storage:</strong> ${device.storage_gb ? device.storage_gb.join(", ") + " GB" : "N/A"}</li>
-                <li><strong>Camera:</strong> ${device.camera_mp ? device.camera_mp.join(", ") + " MP" : "N/A"}</li>
-                <li><strong>RFID:</strong> ${device.rfid ? "Yes" : "No"}</li>
-                <li><strong>Unlock Methods:</strong> ${device.unlock_methods ? device.unlock_methods.join(", ") : "N/A"}</li>
-              </ul>
-            </div>
-          `).join("")}
-        </div>
-  `;
+      const heading = document.createElement("h3");
+      heading.innerHTML = `Top 10 Devices for Trait: <em>${trait.replace(/_/g, " ")}</em>`;
+      resultContainer.insertBefore(heading, resetBtn);
+
+      const grid = document.createElement("div");
+      grid.className = "recommend-grid";
+
+      top10.forEach((device) => {
+        const card = document.createElement("div");
+        card.className = "recommend-card";
+        card.innerHTML = `
+          <ul class="result">
+            <li><strong>Brand:</strong> ${device.brand}</li>
+            <li><strong>Model:</strong> ${device.model}</li>
+            <li><strong>Device Type:</strong> ${device.deviceType}</li>
+            <li><strong>Release Year:</strong> ${device.release_year || "N/A"}</li>
+            <li><strong>Battery:</strong> ${device.battery_mAh ? device.battery_mAh + " mAh" : "N/A"}</li>
+            <li><strong>RAM:</strong> ${device.ram_gb ? device.ram_gb.join(", ") + " GB" : "N/A"}</li>
+            <li><strong>Storage:</strong> ${device.storage_gb ? device.storage_gb.join(", ") + " GB" : "N/A"}</li>
+            <li><strong>Camera:</strong> ${device.camera_mp ? device.camera_mp.join(", ") + " MP" : "N/A"}</li>
+            <li><strong>RFID:</strong> ${device.rfid ? "Yes" : "No"}</li>
+            <li><strong>Unlock Methods:</strong> ${device.unlock_methods ? device.unlock_methods.join(", ") : "N/A"}</li>
+          </ul>
+        `;
+        grid.appendChild(card);
+      });
+
+      resultContainer.appendChild(grid);
+      resultContainer.appendChild(resetBtn);  
     }
 
     resultContainer.style.display = "block";
@@ -156,12 +172,18 @@ export function setupRecommendations(form) {
     form.style.display = "none";
   });
 
+  // Reset button handler
   resetBtn.addEventListener("click", () => {
     console.log("Reset button clicked");
     form.reset();
     traitSelect.innerHTML = `<option value="">Overall</option>`;
+    const existingHeading = resultContainer.querySelector("h3");
+    if (existingHeading) existingHeading.remove();
+    const existingGrid = resultContainer.querySelector(".recommend-grid");
+    if (existingGrid) existingGrid.remove();
+    const noResultMsg = resultContainer.querySelector("p");
+    if (noResultMsg) noResultMsg.remove();
     resultContainer.style.display = "none";
-    resultContainer.innerHTML = "";
     form.style.display = "block";
     resetBtn.style.display = "none";
   });
