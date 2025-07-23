@@ -35,7 +35,7 @@
 }
 
 .navbar .nav-links a:hover {
-  color: var(--accent1-color);
+  color: rgb(204, 206, 214);
 }
 
 /* SCREEN RESPONSIVENESS*/
