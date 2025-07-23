@@ -7,25 +7,26 @@
   <!--<base href="/Gadget_Hub/"> -->
   <link rel="stylesheet" href="/src/assets/css/style.css" />
   <script type="module" src="/src/js/main.js" defer></script>
+  <script src="../../js/functions/menuToggle.js" defer></script> 
 </head>
 <body>
   <header>
-    <a href="index.html">
+    <a href="/">
       <img id="logo" src="/src/assets/images/white_logo-removebg.png" alt="Logo Image">
     </a>
-    <!-- <h1>Gadget Hub</h1>
-    <p>
-      Simplify your tech comparison experience with Gadget Hub.
-    </p> -->
-    <nav class="navbar">
+
+    <div class="navbar">
+      <button class="hamburger" aria-label="Menu">&#9776;</button> 
+      
       <ul class="nav-links">
         <li><a href="/">Main</a></li>
         <li><a href="/src/assets/html/compare.html">Compare</a></li>
         <li><a href="/src/assets/html/recommend.html">Recommend</a></li>
         <li><a href="/src/assets/html/about.html">About</a></li>
       </ul>
-    </nav>
+    </div>
   </header>
+
   <main>
     <section class="intro-section">
       <h1 class="block-effect" style="--td: 1.2s">
