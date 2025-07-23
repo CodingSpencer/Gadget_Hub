@@ -8,6 +8,18 @@
     <link rel="stylesheet" href="/src/assets/css/style.css" />
     <script type="module" src="/src/js/main.js"></script>
     <script src="../../js/functions/menuToggle.js" defer></script> 
+     <style>
+      #confirmationMessage {
+        display: none;
+        margin-top: 1rem;
+        padding: 1rem;
+        border: 1px solid #4CAF50;
+        background-color: #e6ffee;
+        color: #2e7d32;
+        font-weight: bold;
+        border-radius: 5px;
+      }
+  </style>
 </head>
 <body>
     <header>
@@ -26,23 +38,28 @@
           </ul>
         </div>
     </header>
-    <main>
-        <section id="deviceInfo">
-            <form class="deviceInfoForm" action="/src/assets/html/contact-success.html" method="GET">
-              <h2>Contact Form</h2>
-      
-              <label for="Name">Name: </label>
-              <input type="text" id="name" name="name" placeholder="Jane Doe" required />
-      
-              <label for="email">Email: </label>
-              <input type="text" id="email" name="email" placeholder="janedoe1@yahoo.com" required />
-      
-              <label for="comment">Comment: </label>
-              <input type="text" id="comment" name="comment" placeholder="Questions, comments, etc." required />
 
-              <button type="submit">Submit</button>
-            </form>
-        </section>
+    <main>
+       <section id="deviceInfo">
+        <form class="deviceInfoForm" id="contactForm">
+          <h2>Contact Form</h2>
+
+          <label for="name">Name: </label>
+          <input type="text" id="name" name="name" placeholder="Jane Doe" required />
+
+          <label for="email">Email: </label>
+          <input type="text" id="email" name="email" placeholder="janedoe1@yahoo.com" required />
+
+          <label for="comment">Comment: </label>
+          <input type="text" id="comment" name="comment" placeholder="Questions, comments, etc." required />
+
+          <button type="submit">Submit</button>
+        </form>
+
+      <div id="confirmationMessage">
+        Thank you! Your message has been received and we will contact you shortly.
+      </div>
+    </section>
     </main>
 
   <footer>
@@ -50,6 +67,22 @@
       <a href="/src/assets/html/contact.html">Contact Us</a>
     </p>
   </footer>
+
+    <script>
+    // Handle form submission with confirmation message
+    const form = document.getElementById('contactForm');
+    const confirmation = document.getElementById('confirmationMessage');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault(); // Stop the page from refreshing
+
+      // Hide the form
+      form.style.display = 'none';
+
+      // Show confirmation message
+      confirmation.style.display = 'block';
+    });
+  </script>
 
 </body>
 </html>
