@@ -102,11 +102,12 @@ export function createDeviceForm() {
     <h2>Device Information</h2>
     <label for="deviceType">Device Type</label>
     <select class="device-type" name="deviceType">
+      <option value="">-- Select a Device --</option>
       <option value="smartphone">Smartphone</option>
-      <option value="tablet">Tablet</option>
-      <option value="laptop">Laptop</option>
-      <option value="desktop">Desktop</option>
-      <option value="wearable">Wearable</option>
+      // <option value="tablet">Tablet</option>
+      // <option value="laptop">Laptop</option>
+      // <option value="desktop">Desktop</option>
+      // <option value="wearable">Wearable</option>
     </select>
 
     <label for="brand">Brand:</label>
