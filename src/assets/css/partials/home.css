@@ -1,5 +1,5 @@
 :root {
-  --primary-color: #8e9b8e;
+  --primary-color: #2c3e50;
   --secondary-color: #426988;
   --accent1-color: rgb(55, 64, 94);
   --accent2-color: black;
@@ -32,26 +32,11 @@ body {
   padding: 0;
 }
 
-header {
-  display: flex;
-  align-items: center;
-  background-color: var(--primary-color);
-  color: white;
-  padding: 0.5rem;
-}
-
 main {
   flex: 1;
   max-width: 1200px;
   margin: auto;
   padding: 2rem 1rem;
-}
-
-/* Logo image */
-#logo {
-  height: 100px;
-  width: auto;
-  object-fit: contain;
 }
 
 /* Intro Section */
@@ -97,11 +82,11 @@ main {
 
 /* Block reveal effect */
 .block-effect-small {
-  font-size: calc(3px + 2vw); /* smaller */
+  font-size: calc(3px + 2vw);
 }
 
 .block-effect-large {
-  font-size: calc(6px + 4vw); /* larger */
+  font-size: calc(6px + 4vw);
 }
 
 .block-reveal {
@@ -125,7 +110,6 @@ main {
   animation: revealingIn var(--td) var(--d) forwards, revealingOut var(--td) var(--t) forwards;
 }
 
-/* Animations for block reveal */
 @keyframes revealBlock {
   100% {
     color: #0f0f0f;
@@ -151,22 +135,11 @@ main {
   font-size: 16px;
 }
 
-/* CSS for Mobile Use */
+/* Mobile tweaks */
 @media (max-width: 768px) {
   body {
     font-size: 14px;
     padding: 0;
-  }
-
-  header {
-    flex-direction: column;
-    text-align: center;
-    padding: 1rem;
-  }
-
-  #logo {
-    height: 70px;
-    margin-bottom: 0.5rem;
   }
 
   main {
@@ -204,10 +177,6 @@ main {
 }
 
 @media (max-width: 480px) {
-  header {
-    padding: 0.5rem;
-  }
-
   .intro-section {
     padding: 0.75rem;
   }
@@ -218,9 +187,5 @@ main {
 
   .intro-section p {
     font-size: 0.95rem;
-  }
-
-  #logo {
-    height: 60px;
   }
 }

@@ -1,0 +1,72 @@
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.5rem 1rem;
+}
+
+header > a {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+header .navbar {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header .spacer {
+  flex: 1;
+}
+
+header .nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+header .nav-links li a {
+  color: white;
+  text-decoration: none;
+}
+
+header .nav-links li a:hover {
+  text-decoration: underline;
+}
+
+#logo {
+  height: 100px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* CSS for Mobile Use */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  #logo {
+    height: 70px;
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 0.5rem;
+  }
+
+  #logo {
+    height: 60px;
+  }
+}
