@@ -1,16 +1,16 @@
 /* Animation for Form */
-@keyframes spinInQuick {
+@keyframes fadeInRight {
   0% {
     opacity: 0;
-    transform: rotate(-45deg) scale(0.8);
+    transform: translateX(50px);
   }
   100% {
     opacity: 1;
-    transform: rotate(0deg) scale(1);
+    transform: translateX(0);
   }
 }
 
-/* Each device block */
+/* Form for each device */
 .device-block {
   background: #fff;
   border-radius: var(--border-radius);
@@ -24,7 +24,7 @@
 
   /* CSS Spin-in animation */
   opacity: 0;
-  animation: spinInQuick 0.6s ease-out forwards;
+  animation: fadeInRight 0.6s ease-out forwards;
 }
 
 .device-block:hover {
@@ -181,4 +181,79 @@ form button[type="submit"]:hover {
   font-weight: 600;
 }
 
+/* CSS for Mobile Use */
+@media (max-width: 768px) {
+  /* Grid layout becomes a single column on mobile */
+  #deviceInfo {
+    grid-template-columns: 1fr;
+    padding: 0.5rem;
+  }
 
+  /* Device block spacing and sizing */
+  .device-block {
+    padding: 1rem;
+  }
+
+  form.deviceInfoForm h2 {
+    font-size: 1.25rem;
+    text-align: center;
+  }
+
+  form label,
+  form select,
+  form button[type="submit"],
+  .removeFormButton {
+    font-size: 0.95rem;
+  }
+
+  form button[type="submit"],
+  .removeFormButton {
+    width: 100%;
+    align-self: stretch;
+    text-align: center;
+  }
+
+  /* Add Device Button */
+  #addDeviceButton {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    margin-top: 1rem;
+  }
+
+  /* Results container */
+  .form-results {
+    padding: 1rem;
+  }
+
+  .result {
+    margin: 1rem auto;
+    padding: 1rem;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .result li {
+    font-size: 0.95rem;
+  }
+
+  .abs-site-link {
+    font-size: 14px;
+    bottom: 10px;
+    left: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  form.deviceInfoForm h2 {
+    font-size: 1.1rem;
+  }
+
+  .result li {
+    font-size: 0.9rem;
+  }
+
+  #logo {
+    height: 60px;
+  }
+}

@@ -150,3 +150,77 @@ main {
   color: hsla(0, 0%, 0%, 0.6);
   font-size: 16px;
 }
+
+/* CSS for Mobile Use */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+    padding: 0;
+  }
+
+  header {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  #logo {
+    height: 70px;
+    margin-bottom: 0.5rem;
+  }
+
+  main {
+    padding: 1rem;
+  }
+
+  .intro-section {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .intro-section h1 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .intro-section p {
+    font-size: 1rem;
+    text-align: justify;
+  }
+
+  .block-effect-large {
+    font-size: calc(10px + 3vw);
+  }
+
+  .block-effect-small {
+    font-size: calc(8px + 2vw);
+  }
+
+  .abs-site-link {
+    font-size: 14px;
+    bottom: 10px;
+    left: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 0.5rem;
+  }
+
+  .intro-section {
+    padding: 0.75rem;
+  }
+
+  .intro-section h1 {
+    font-size: 1.3rem;
+  }
+
+  .intro-section p {
+    font-size: 0.95rem;
+  }
+
+  #logo {
+    height: 60px;
+  }
+}

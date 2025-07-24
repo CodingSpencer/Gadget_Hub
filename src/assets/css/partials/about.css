@@ -60,3 +60,59 @@ footer {
   color: white;
   margin-top: 2rem;
 }
+
+/* CSS for Mobile Use */
+@media (max-width: 768px) {
+  header {
+    padding: 0.75rem;
+    text-align: center;
+  }
+
+  nav {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav a {
+    margin: 0.5rem 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  main {
+    padding: 1.25rem;
+    margin: 1rem;
+  }
+
+  .highlight {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  footer {
+    font-size: 0.95rem;
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  nav a {
+    display: block;
+    margin: 0.25rem 0;
+  }
+
+  main {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+
+  .highlight {
+    font-size: 0.9rem;
+  }
+
+  footer {
+    font-size: 0.85rem;
+    padding: 0.5rem;
+  }
+}
