@@ -1,6 +1,6 @@
 header {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   background-color: var(--primary-color);
@@ -19,6 +19,8 @@ header .navbar {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: nowrap;
+  min-width: 0;
 }
 
 header .spacer {
@@ -26,11 +28,13 @@ header .spacer {
 }
 
 header .nav-links {
-  list-style: none;
   display: flex;
+  flex-direction: row;
   gap: 1rem;
   margin: 0;
   padding: 0;
+  list-style: none;
+  white-space: nowrap;
 }
 
 header .nav-links li a {
